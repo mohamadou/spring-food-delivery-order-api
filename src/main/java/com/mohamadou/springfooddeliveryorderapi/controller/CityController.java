@@ -1,4 +1,4 @@
-package com.mohamadou.springfooddeliveryorderapi.rest;
+package com.mohamadou.springfooddeliveryorderapi.controller;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.City;
 import com.mohamadou.springfooddeliveryorderapi.service.CityService;

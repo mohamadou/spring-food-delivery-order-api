@@ -1,8 +1,10 @@
 package com.mohamadou.springfooddeliveryorderapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "city")
@@ -20,4 +22,9 @@ public class City {
 
     @Column(name = "zip_code")
     private String zipCode;
+
+   /* @OneToMany(mappedBy = "city",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Restaurant> restaurant;*/
 }

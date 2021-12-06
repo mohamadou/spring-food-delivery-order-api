@@ -1,5 +1,6 @@
 package com.mohamadou.springfooddeliveryorderapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,11 +16,12 @@ public class Restaurant {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    private String name;
+
     @Column(name = "address")
     private String address;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
-            fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "city_id")
     private City city;
 }

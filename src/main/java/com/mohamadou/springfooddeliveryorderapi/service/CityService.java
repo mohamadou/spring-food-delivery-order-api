@@ -52,6 +52,8 @@ public class CityService {
             throw new RuntimeException("City with this id: "+ cityId +" does not exist");
         }
 
+        // TODO: detach restaurant when deleting city
+
         cityRepository.deleteById(cityId);
         System.out.println("City has been deleted with success");
     }
