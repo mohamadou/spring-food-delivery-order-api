@@ -23,6 +23,7 @@ public class City {
     @Column(name = "zip_code")
     private String zipCode;
 
+
    /* @OneToMany(mappedBy = "city",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
     @JsonBackReference

@@ -3,6 +3,7 @@ package com.mohamadou.springfooddeliveryorderapi.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
@@ -29,10 +30,8 @@ public class Customer {
 
     private String address;
     private String phone;
-    private String email;
 
-    @Column(name = "confirmation_code")
-    private String confirmationCode;
+    private String email;
 
     private String password;
 
