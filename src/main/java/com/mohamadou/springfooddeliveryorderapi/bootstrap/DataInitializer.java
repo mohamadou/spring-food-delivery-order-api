@@ -1,8 +1,10 @@
 package com.mohamadou.springfooddeliveryorderapi.bootstrap;
 
+import com.mohamadou.springfooddeliveryorderapi.entity.Category;
 import com.mohamadou.springfooddeliveryorderapi.entity.City;
 import com.mohamadou.springfooddeliveryorderapi.entity.Customer;
 import com.mohamadou.springfooddeliveryorderapi.entity.Restaurant;
+import com.mohamadou.springfooddeliveryorderapi.repository.CategoryRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.CityRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.CustomerRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.RestaurantRepository;
@@ -24,12 +26,16 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @Override
     public void run(String... args) throws Exception {
         //Remove all data from the DB
         cityRepository.deleteAll();
         restaurantRepository.deleteAll();
         customerRepository.deleteAll();
+        categoryRepository.deleteAll();
 
         // City
         City city1 = new City(1L,"Mermoz", "1234");
@@ -61,6 +67,13 @@ public class DataInitializer implements CommandLineRunner {
         customer1.setPhone("389499449");
 
         customerRepository.save(customer1);
+
+        // Category
+        Category pizza = new Category(0L, "Pizza");
+        Category salads = new Category(0L, "Salads");
+        Category sandwiches = new Category(0L, "Sandwiches");
+        Category drinks = new Category(0L, "Drinks");
+        categoryRepository.saveAll(List.of(pizza, salads, sandwiches, drinks));
 
     }
 }

@@ -76,7 +76,7 @@ public class CustomerService {
 
         // Check if the city exist before updating the customer
         Optional<City> optionalCity = cityRepository.findById(customerRequest.getCityId());
-        Customer customer = new Customer();
+        Customer customer = customerOptional.get();
 
         if (optionalCity.isEmpty()) {
             throw new RuntimeException("City with id:" + customerRequest.getCityId() + " does not exists");

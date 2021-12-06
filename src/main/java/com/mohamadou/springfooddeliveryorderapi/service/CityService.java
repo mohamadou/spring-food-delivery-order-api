@@ -42,6 +42,7 @@ public class CityService {
         if(optionalCity.isEmpty()) {
             throw new RuntimeException("City with this id: "+ city.getId() +" does not exist");
         }
+
         return cityRepository.save(city);
     }
 
