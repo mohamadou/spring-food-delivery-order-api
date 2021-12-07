@@ -26,18 +26,19 @@ public class MenuItem {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
     private String description;
     private String ingredients;
     private String recipe;
     private Double price;
     private Boolean active;
 
+    // TODO add Restaurant to menuItem
+
     @ManyToMany
     @JoinTable(
             name = "in_offer",
             joinColumns = @JoinColumn(name = "menu_item_id"),
             inverseJoinColumns = @JoinColumn(name = "offer_id"))
-    private List<Offer> offer;
+    private List<Offer> offers;
 
 }

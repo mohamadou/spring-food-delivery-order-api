@@ -32,8 +32,8 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //Remove all data from the DB
-        cityRepository.deleteAll();
         restaurantRepository.deleteAll();
+        cityRepository.deleteAll();
         customerRepository.deleteAll();
         categoryRepository.deleteAll();
 

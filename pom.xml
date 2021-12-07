@@ -14,7 +14,7 @@
 	<name>spring-food-delivery-order-api</name>
 	<description>A Food delivery and order system</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

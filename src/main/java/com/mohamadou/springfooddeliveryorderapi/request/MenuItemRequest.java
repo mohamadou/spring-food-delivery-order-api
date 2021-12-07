@@ -21,5 +21,5 @@ public class MenuItemRequest {
     private String recipe;
     private Double price;
     private Boolean active;
-    private Long offerId;
+    private List<Offer> offers;
 }

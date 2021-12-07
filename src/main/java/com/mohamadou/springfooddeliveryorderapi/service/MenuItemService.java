@@ -55,17 +55,19 @@ public class MenuItemService {
         menuItem.setDescription(menuItemRequest.getDescription());
         menuItem.setIngredients(menuItemRequest.getIngredients());
         menuItem.setPrice(menuItemRequest.getPrice());
+        menuItem.setRecipe(menuItemRequest.getRecipe());
         menuItem.setActive(menuItemRequest.getActive());
+        menuItem.setOffers(menuItemRequest.getOffers());
 
         //Check if Offer exists before adding it to the menu_item
-        Optional<Offer> optionalOffer = offerRepository.findById(menuItemRequest.getOfferId());
+       // Optional<Offer> optionalOffer = offerRepository.findById(menuItemRequest.getOfferId());
 
-        // TODO fix offer attaching to menutiem when creating new one
-        optionalOffer.ifPresent(offer -> menuItem.setOffer(List.of(offer)));
-        if(optionalOffer.isEmpty()){
+        // TODO fix offer attaching to menuItem when creating new one
+       // optionalOffer.ifPresent(offer -> menuItem.setOffer(List.of(offer)));
+       /* if(optionalOffer.isEmpty()){
             List<Offer> offers = new ArrayList<>();
             menuItem.setOffer(offers);
-        }
+        }*/
 
         //Check if Category exists before adding it to the menu_item
         Optional<Category> optionalCategory = categoryRepository.findById(menuItemRequest.getCategoryId());
@@ -87,13 +89,17 @@ public class MenuItemService {
         menuItem.setIngredients(menuItemRequest.getIngredients());
         menuItem.setPrice(menuItemRequest.getPrice());
         menuItem.setActive(menuItemRequest.getActive());
+        menuItem.setOffers(menuItemRequest.getOffers());
 
         //Check if Offer exists before adding it to the menu_item
-        Optional<Offer> optionalOffer = offerRepository.findById(menuItemRequest.getOfferId());
-        optionalOffer.ifPresent(offer -> menuItem.setOffer(List.of(offer)));
+      /* Optional<Offer> optionalOffer = offerRepository.findAllById(menuItemRequest.getOffers());
+        optionalOffer.ifPresent(offer -> menuItem.setOffers(List.of(offer)));
+*/
+        // TODO fix offer attaching to menuItem when creating new one
+
 
         //Check if Category exists before adding it to the menu_item
-        Optional<Category> optionalCategory = categoryRepository.findById(menuItemRequest.getOfferId());
+        Optional<Category> optionalCategory = categoryRepository.findById(menuItemRequest.getCategoryId());
         optionalCategory.ifPresent(menuItem::setCategory);
 
         return menuItemRepository.save(menuItem);
