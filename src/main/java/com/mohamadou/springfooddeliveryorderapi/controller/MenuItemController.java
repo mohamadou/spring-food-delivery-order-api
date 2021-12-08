@@ -1,6 +1,7 @@
 package com.mohamadou.springfooddeliveryorderapi.controller;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.MenuItem;
+import com.mohamadou.springfooddeliveryorderapi.entity.Offer;
 import com.mohamadou.springfooddeliveryorderapi.request.MenuItemRequest;
 import com.mohamadou.springfooddeliveryorderapi.service.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,10 @@ public class MenuItemController {
     @PutMapping(path = "/edit/{menuItemId}")
     public MenuItem updateMenuItem(@RequestBody MenuItemRequest menuItemRequest, @PathVariable Long menuItemId) {
         return menuItemService.updateMenuItem(menuItemId, menuItemRequest);
+    }
+
+    @PostMapping(path = "/addOfferToMenuItem/{menuItemId}/{offerId}")
+    public MenuItem addOfferToMenuItem(@PathVariable Long menuItemId, @PathVariable Long offerId) {
+        return menuItemService.addOfferToMenuItem(menuItemId, offerId);
     }
 }

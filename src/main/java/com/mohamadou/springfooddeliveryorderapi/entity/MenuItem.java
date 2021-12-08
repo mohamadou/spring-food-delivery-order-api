@@ -1,8 +1,10 @@
 package com.mohamadou.springfooddeliveryorderapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter @Getter @Builder
+@ToString
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +37,19 @@ public class MenuItem {
 
     // TODO add Restaurant to menuItem
 
+
     @ManyToMany
     @JoinTable(
             name = "in_offer",
             joinColumns = @JoinColumn(name = "menu_item_id"),
             inverseJoinColumns = @JoinColumn(name = "offer_id"))
     private List<Offer> offers;
+
+    public void addOffer(Offer offer) {
+        if(this.offers == null) {
+            this.offers = new ArrayList<>();
+        }
+        this.offers.add(offer);
+    }
 
 }
