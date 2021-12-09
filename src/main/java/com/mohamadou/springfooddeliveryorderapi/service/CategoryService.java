@@ -45,6 +45,7 @@ public class CategoryService {
         Category category = new Category();
         categoryRequest.setId(0L);
         category.setCategoryName(categoryRequest.getCategoryName());
+        category.setDescription(categoryRequest.getDescription());
 
         return categoryRepository.save(category);
     }

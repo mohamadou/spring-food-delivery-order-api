@@ -69,10 +69,10 @@ public class DataInitializer implements CommandLineRunner {
         customerRepository.save(customer1);
 
         // Category
-        Category pizza = new Category(0L, "Pizza");
-        Category salads = new Category(0L, "Salads");
-        Category sandwiches = new Category(0L, "Sandwiches");
-        Category drinks = new Category(0L, "Drinks");
+        Category pizza = new Category(0L, "Pizza", null);
+        Category salads = new Category(0L, "Salads", null);
+        Category sandwiches = new Category(0L, "Sandwiches", null);
+        Category drinks = new Category(0L, "Drinks", null);
         categoryRepository.saveAll(List.of(pizza, salads, sandwiches, drinks));
 
     }
