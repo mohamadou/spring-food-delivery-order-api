@@ -37,6 +37,8 @@ public class MenuItem {
 
     // TODO add Restaurant to menuItem
 
+    // TODO add menu_item_image (Type: Blob)
+
 
     @ManyToMany
     @JoinTable(
