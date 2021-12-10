@@ -54,4 +54,9 @@ public class MenuItem {
         this.offers.add(offer);
     }
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "menuItem",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private List<OrderDetails> orderDetails;
+
 }

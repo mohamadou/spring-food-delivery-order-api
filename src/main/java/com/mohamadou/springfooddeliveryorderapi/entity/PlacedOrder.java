@@ -31,10 +31,10 @@ public class PlacedOrder {
 
     @ManyToMany
     @JoinTable(
-            name = "order_status",
+            name = "status_placed_order",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "status_type_id"))
-    private List<StatusType> statusTypes;
+            inverseJoinColumns = @JoinColumn(name = "status_order_id"))
+    private List<StatusOrder> statusOrders;
 
     // TODO: create User entity and join it with the order
 //    private Long processedBy;

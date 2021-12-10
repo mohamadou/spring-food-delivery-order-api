@@ -1,13 +1,7 @@
 package com.mohamadou.springfooddeliveryorderapi.bootstrap;
 
-import com.mohamadou.springfooddeliveryorderapi.entity.Category;
-import com.mohamadou.springfooddeliveryorderapi.entity.City;
-import com.mohamadou.springfooddeliveryorderapi.entity.Customer;
-import com.mohamadou.springfooddeliveryorderapi.entity.Restaurant;
-import com.mohamadou.springfooddeliveryorderapi.repository.CategoryRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.CityRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.CustomerRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.RestaurantRepository;
+import com.mohamadou.springfooddeliveryorderapi.entity.*;
+import com.mohamadou.springfooddeliveryorderapi.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -29,6 +23,9 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    StatusOrderRepository statusOrderRepository;
+
     @Override
     public void run(String... args) throws Exception {
         //Remove all data from the DB
@@ -36,13 +33,13 @@ public class DataInitializer implements CommandLineRunner {
         cityRepository.deleteAll();
         customerRepository.deleteAll();
         categoryRepository.deleteAll();
+        statusOrderRepository.deleteAll();
 
         // City
         City city1 = new City(1L,"Mermoz", "1234");
         City city2 = new City(2L,"Fann", "9832");
         City city3 = new City(3L,"Sacre Coeur 3", "4555");
         City city4 = new City(4L,"Liberté 6", "9993");
-
         cityRepository.saveAllAndFlush(List.of(city1, city2, city3, city4));
 
 
@@ -50,7 +47,6 @@ public class DataInitializer implements CommandLineRunner {
        Restaurant restaurant1 = new Restaurant(1L,"Caesar Mermoz","Mermoz 3eme porte coté BICIs", city1);
        Restaurant restaurant2 = new Restaurant(2L,"Tacos de Lyon","Fann, place du souvenir", city2);
        Restaurant restaurant3 = new Restaurant(3L,"Chez joe","Coté Boulangerie jaune", city3);
-
        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
        // Customer
@@ -65,7 +61,6 @@ public class DataInitializer implements CommandLineRunner {
         customer1.setFirstName("John");
         customer1.setLastName("Doe");
         customer1.setPhone("389499449");
-
         customerRepository.save(customer1);
 
         // Category
@@ -75,5 +70,20 @@ public class DataInitializer implements CommandLineRunner {
         Category drinks = new Category(0L, "Drinks", null);
         categoryRepository.saveAll(List.of(pizza, salads, sandwiches, drinks));
 
+
+        // Status Order
+        StatusOrder statusOrder1 = new StatusOrder(0L, "Order confirmed", null);
+        StatusOrder statusOrder2 = new StatusOrder(0L, "Processing in progress", null);
+        StatusOrder statusOrder3 = new StatusOrder(0L, "Canceled", null);
+        StatusOrder statusOrder4 = new StatusOrder(0L, "Shipped", null);
+        StatusOrder statusOrder5 = new StatusOrder(0L, "Delivered", null);
+        StatusOrder statusOrder6 = new StatusOrder(0L, "Payment accepted", null);
+        StatusOrder statusOrder7 = new StatusOrder(0L, "Awaiting cash on delivery", null);
+        StatusOrder statusOrder8 = new StatusOrder(0L, "Refunded", null);
+        statusOrderRepository.saveAll(List.of(
+                statusOrder1, statusOrder2, statusOrder3,
+                statusOrder4, statusOrder5, statusOrder6,
+                statusOrder7, statusOrder8
+        ));
     }
 }

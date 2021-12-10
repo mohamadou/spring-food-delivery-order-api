@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Table(name = "status_type")
+@Table(name = "status_order")
 @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter @ToString @Builder
-public class StatusType {
+public class StatusOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -19,11 +19,11 @@ public class StatusType {
 
     @ManyToMany
     @JoinTable(
-            name = "order_status",
-            joinColumns = @JoinColumn(name = "status_type_id"),
-            inverseJoinColumns = {@JoinColumn(name = "order_id"), @JoinColumn(name = "order_id")})
+            name = "status_placed_order",
+            joinColumns = @JoinColumn(name = "status_order_id"),
+            inverseJoinColumns = {@JoinColumn(name = "order_id")})
     private List<PlacedOrder> placedOrders;
 
-    //TODO add added_date column in the order_status table
+    //TODO add added_date column in the status_placed_order table
     
 }

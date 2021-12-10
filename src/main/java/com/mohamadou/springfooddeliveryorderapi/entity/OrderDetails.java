@@ -3,6 +3,7 @@ package com.mohamadou.springfooddeliveryorderapi.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "order_details")
@@ -21,7 +22,9 @@ public class OrderDetails {
      * References the menu_item table,
      * but only if this record is related to a menu item and not an offer.
      */
-    private Long menuItemId;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "menu_item_id")
+    private MenuItem menuItem;
 
     /**
      * How many offers or menu items are included in this order.

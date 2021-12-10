@@ -3,11 +3,9 @@ package com.mohamadou.springfooddeliveryorderapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +37,13 @@ public class Offer {
             joinColumns = @JoinColumn(name = "offer_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_item_id"))
     @ToString.Exclude
-    private List<MenuItem> menuItems = new ArrayList<>();
+    private List<MenuItem> menuItems;
 
 
     public void addMenuItem(MenuItem menuItem) {
+        if(this.menuItems == null) {
+            this.menuItems = new ArrayList<>();
+        }
         this.menuItems.add(menuItem);
     }
 }
