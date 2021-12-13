@@ -46,6 +46,10 @@ public class PlacedOrder {
     // TODO: create User entity and join it with the order
 //    private Long processedBy;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @JsonIgnore
     @OneToMany(mappedBy = "placedOrder",

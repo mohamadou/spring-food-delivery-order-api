@@ -4,6 +4,7 @@ import com.mohamadou.springfooddeliveryorderapi.entity.*;
 import com.mohamadou.springfooddeliveryorderapi.reponse.CustomerOrderResponse;
 import com.mohamadou.springfooddeliveryorderapi.repository.CustomerRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.MenuItemRepository;
+import com.mohamadou.springfooddeliveryorderapi.repository.RestaurantRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.StatusOrderRepository;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,14 @@ public class CustomerOrderRequest {
     private String deliveryAddress;
     private Double discount;
     private String comment;
+    private Long restaurantId;
 
+    // Dependency Injection
     private MenuItemRepository menuItemRepository;
     private StatusOrderRepository statusOrderRepository;
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
+    private RestaurantRepository restaurantRepository;
 
     public CustomerOrderRequest() {
 
@@ -43,12 +47,14 @@ public class CustomerOrderRequest {
             MenuItemRepository menuItemRepository,
             StatusOrderRepository statusOrderRepository,
             CustomerRepository customerRepository,
-            OrderRepository orderRepository
+            OrderRepository orderRepository,
+            RestaurantRepository restaurantRepository
     ) {
         this.menuItemRepository = menuItemRepository;
         this.statusOrderRepository = statusOrderRepository;
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public PlacedOrder toOrderRequest(CustomerOrderRequest request) {
@@ -69,10 +75,14 @@ public class CustomerOrderRequest {
                 .phone(request.getCustomer().getPhone())
                 .address(request.getCustomer().getAddress())
                 .build();
-
         Customer createdCustomer = customerRepository.save(customer);
 
+        // Get Restaurant from the Db
+        Optional<Restaurant> restaurant = restaurantRepository.findById(request.getRestaurantId());
+
+
         PlacedOrder placedOrder = new PlacedOrder();
+        placedOrder.setRestaurant(restaurant.get());
         placedOrder.addOrderDetails(toItems(request.getOrderDetails()));
         placedOrder.setOrderTime(LocalDateTime.now());
         placedOrder.setEstimatedDeliveryTime(LocalDateTime.now());

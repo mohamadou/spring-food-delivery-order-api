@@ -1,9 +1,6 @@
 package com.mohamadou.springfooddeliveryorderapi.reponse;
 
-import com.mohamadou.springfooddeliveryorderapi.entity.Customer;
-import com.mohamadou.springfooddeliveryorderapi.entity.OrderDetails;
-import com.mohamadou.springfooddeliveryorderapi.entity.PlacedOrder;
-import com.mohamadou.springfooddeliveryorderapi.entity.StatusOrder;
+import com.mohamadou.springfooddeliveryorderapi.entity.*;
 import com.mohamadou.springfooddeliveryorderapi.request.CustomerRequest;
 import com.mohamadou.springfooddeliveryorderapi.request.OrderDetailsRequest;
 import lombok.*;
@@ -18,6 +15,7 @@ import java.util.List;
 @ToString
 public class CustomerOrderResponse {
     private Long id;
+    private Restaurant restaurant;
     private List<OrderDetails> orderDetails;
     private Customer customer;
     private String deliveryAddress;
@@ -34,6 +32,7 @@ public class CustomerOrderResponse {
     public static CustomerOrderResponse toOrderResponse(PlacedOrder placedOrder) {
         // Order Response mapping
         CustomerOrderResponse customerOrderResponse = new CustomerOrderResponse();
+        customerOrderResponse.setRestaurant(placedOrder.getRestaurant());
         customerOrderResponse.setId(placedOrder.getId());
         customerOrderResponse.setOrderDetails(placedOrder.getOrderDetails());
         customerOrderResponse.setOrderTime(placedOrder.getOrderTime());
