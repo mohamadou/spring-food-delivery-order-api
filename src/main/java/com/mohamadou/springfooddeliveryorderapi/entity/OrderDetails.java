@@ -1,5 +1,6 @@
 package com.mohamadou.springfooddeliveryorderapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,18 +17,22 @@ public class OrderDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private Long placedOrderId;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "placed_order_id")
+    private PlacedOrder placedOrder;
 
     /**
      * References the menu_item table,
      * but only if this record is related to a menu item and not an offer.
      */
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "menu_item_id")
-    private MenuItem menuItem;
+    /*@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "menu_item_id")*/
+    private Long menuItem;
 
     /**
-     * How many offers or menu items are included in this order.
+     * The number of offers or menu items included in this order.
      */
     private Long quantity;
 
@@ -46,6 +51,5 @@ public class OrderDetails {
      *  e.g. “Please cut pizza into 8 slices”
      */
     private String comment;
-
 
 }

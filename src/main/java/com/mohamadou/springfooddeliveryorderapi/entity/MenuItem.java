@@ -2,8 +2,10 @@ package com.mohamadou.springfooddeliveryorderapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.criterion.Order;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +56,9 @@ public class MenuItem {
         this.offers.add(offer);
     }
 
-    @JsonIgnore
+    /*@JsonIgnore
     @OneToMany(mappedBy = "menuItem",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    private List<OrderDetails> orderDetails;
+    private List<OrderDetails> orderDetails;*/
 
 }

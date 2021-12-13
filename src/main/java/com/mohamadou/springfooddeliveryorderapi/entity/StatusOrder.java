@@ -1,5 +1,6 @@
 package com.mohamadou.springfooddeliveryorderapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,9 @@ public class StatusOrder {
 
     private String statusName;
 
-    @ManyToMany
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "status_placed_order",
             joinColumns = @JoinColumn(name = "status_order_id"),

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor @AllArgsConstructor
-@Getter @Setter @Builder
+@Getter @Setter @Builder @ToString
 public class CustomerRequest {
 
     private Long id;

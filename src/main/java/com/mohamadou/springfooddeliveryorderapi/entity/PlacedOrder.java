@@ -1,10 +1,13 @@
 package com.mohamadou.springfooddeliveryorderapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +18,8 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Slf4j
 public class PlacedOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +30,13 @@ public class PlacedOrder {
      * The ID of the customer who placed that order.
      * This attribute could contain a NULL value if the order was placed by someone who is not a registered app user.
      */
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "status_placed_order",
             joinColumns = @JoinColumn(name = "order_id"),
@@ -38,6 +45,12 @@ public class PlacedOrder {
 
     // TODO: create User entity and join it with the order
 //    private Long processedBy;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "placedOrder",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},  fetch = FetchType.LAZY)
+    private List<OrderDetails> orderDetails;
 
     /**
      * A timestamp of when the order was placed.
@@ -87,6 +100,19 @@ public class PlacedOrder {
     private String comment;
 
 
+    public void addOrderDetails(List<OrderDetails> orderDetailsList) {
+        log.info("PlacedOrder -> addOrderDetails: {}", orderDetails);
+        for(OrderDetails orderDetail : orderDetailsList) {
+            if (orderDetail != null) {
+                if (orderDetails == null) {
+                    this.orderDetails = new ArrayList<OrderDetails>();
+                }
+                this.orderDetails.add(orderDetail);
+                orderDetail.setPlacedOrder(this);
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,4 +125,5 @@ public class PlacedOrder {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }
