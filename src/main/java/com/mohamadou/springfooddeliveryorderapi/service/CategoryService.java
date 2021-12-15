@@ -1,6 +1,8 @@
 package com.mohamadou.springfooddeliveryorderapi.service;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.Category;
+import com.mohamadou.springfooddeliveryorderapi.entity.City;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.CategoryRepository;
 import com.mohamadou.springfooddeliveryorderapi.request.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +28,20 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> getCategoryById(Long categoryId) {
-        return categoryRepository.findById(categoryId);
+    public Category getCategoryById(Long categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+
+        if(category.isEmpty()) {
+            throw new ResourceNotFoundException("Category id not found :" + categoryId);
+        }
+        return category.get();
     }
 
     public int deleteCategoryById(Long categoryId) {
         // Check if category exists before deleting the category
         Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
         if(optionalCategory.isEmpty()) {
-            throw new RuntimeException("Customer with id: "+ categoryId+" does not exist");
+            throw new ResourceNotFoundException("Category id not found :" + categoryId);
         }
         categoryRepository.deleteById(categoryId);
 
@@ -54,7 +61,7 @@ public class CategoryService {
         // Check if category exists before updating the category
         Optional<Category> optionalCategory = categoryRepository.findById(categoryRequest.getId());
         if(optionalCategory.isEmpty()) {
-            throw new RuntimeException("Customer with id: "+ categoryRequest.getId()+" does not exist");
+            throw new ResourceNotFoundException("Category id not found :" + categoryRequest.getId());
         }
         Category category = optionalCategory.get();
         category.setCategoryName(categoryRequest.getCategoryName());

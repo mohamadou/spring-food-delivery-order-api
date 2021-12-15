@@ -29,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping(path = "/{categoryId}")
-    public Optional<Category> getCategoryById(@PathVariable Long categoryId) {
+    public Category getCategoryById(@PathVariable Long categoryId) {
         return categoryService.getCategoryById(categoryId);
     }
 

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/offer")
@@ -29,7 +28,7 @@ public class OfferController {
     }
 
     @GetMapping(path = "{offerId}")
-    public Optional<Offer> getOfferById(@PathVariable Long offerId) {
+    public Offer getOfferById(@PathVariable Long offerId) {
         return offerService.getOfferById(offerId);
     }
 

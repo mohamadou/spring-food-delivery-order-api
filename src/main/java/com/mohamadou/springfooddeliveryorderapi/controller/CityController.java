@@ -27,7 +27,7 @@ public class CityController {
     }
 
     @GetMapping(path = "/{cityId}")
-    public Optional<City> getCityById(@PathVariable Long cityId) {
+    public City getCityById(@PathVariable Long cityId) {
         return cityService.getCityById(cityId);
     }
 
@@ -42,7 +42,7 @@ public class CityController {
     }
 
     @DeleteMapping(path = "/delete/{cityId}")
-    public void deleteCityById(@PathVariable  Long cityId) {
-        cityService.deleteCityById(cityId);
+    public int deleteCityById(@PathVariable  Long cityId) {
+        return cityService.deleteCityById(cityId);
     }
 }

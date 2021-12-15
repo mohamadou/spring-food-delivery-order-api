@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/statusOrder")
@@ -28,7 +27,7 @@ public class StatusOrderController {
     }
 
     @GetMapping(path = "/{statusOrderId}")
-    public Optional<StatusOrder> getStatusOrderById(@PathVariable Long statusOrderId) {
+    public StatusOrder getStatusOrderById(@PathVariable Long statusOrderId) {
         return statusOrderService.getStatusOrderById(statusOrderId);
     }
 

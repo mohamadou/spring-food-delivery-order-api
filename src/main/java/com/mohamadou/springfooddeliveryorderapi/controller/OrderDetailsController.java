@@ -1,13 +1,11 @@
 package com.mohamadou.springfooddeliveryorderapi.controller;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.OrderDetails;
-import com.mohamadou.springfooddeliveryorderapi.request.OrderDetailsRequest;
 import com.mohamadou.springfooddeliveryorderapi.service.OrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/orderDetails")
@@ -30,7 +28,7 @@ public class OrderDetailsController {
     }
 
     @GetMapping(path = "{orderDetailsId}")
-    public Optional<OrderDetails> getOrderDetailsById(@PathVariable  Long orderDetailsId){
+    public OrderDetails getOrderDetailsById(@PathVariable  Long orderDetailsId){
         return  orderDetailsService.getOrderDetailsById(orderDetailsId);
     }
 

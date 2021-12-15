@@ -31,7 +31,7 @@ public class MenuItemController {
     }
 
     @GetMapping(path = "{menuItemId}")
-    public Optional<MenuItem> getMenuItemById(@PathVariable Long menuItemId) {
+    public MenuItem getMenuItemById(@PathVariable Long menuItemId) {
         return menuItemService.getMenuItemById(menuItemId);
     }
 

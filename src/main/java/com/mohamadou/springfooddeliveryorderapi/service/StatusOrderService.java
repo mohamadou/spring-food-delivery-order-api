@@ -1,10 +1,10 @@
 package com.mohamadou.springfooddeliveryorderapi.service;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.StatusOrder;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.StatusOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,17 +26,24 @@ public class StatusOrderService {
         return statusOrderRepository.findAll();
     }
 
-    public Optional<StatusOrder> getStatusOrderById(Long statusOrderId){
-        return  statusOrderRepository.findById(statusOrderId);
+    public StatusOrder getStatusOrderById(Long statusOrderId){
+        Optional<StatusOrder> optionalStatusOrder = statusOrderRepository.findById(statusOrderId);
+
+        if(optionalStatusOrder.isEmpty()) {
+            throw new ResourceNotFoundException("Status order id not found :" + statusOrderId);
+        }
+
+        return optionalStatusOrder.get();
     }
 
     public int deleteStatusOrderById(Long statusOrderId){
         Optional<StatusOrder> optionalStatusOrder = statusOrderRepository.findById(statusOrderId);
 
         if(optionalStatusOrder.isEmpty()) {
-            throw new IllegalArgumentException("Status Order with id: "+ statusOrderId + " does not exists");
+            throw new ResourceNotFoundException("Status order id not found :" + statusOrderId);
         }
-          statusOrderRepository.deleteById(statusOrderId);
+
+        statusOrderRepository.deleteById(statusOrderId);
 
         return 0;
     }
@@ -50,7 +57,7 @@ public class StatusOrderService {
         Optional<StatusOrder> optionalStatusOrder = statusOrderRepository.findById(statusOrder.getId());
 
         if(optionalStatusOrder.isEmpty()) {
-            throw new IllegalArgumentException("Status Order with id: "+ statusOrder.getId() + " does not exists");
+            throw new ResourceNotFoundException("Status order id not found :" + statusOrder.getId());
         }
 
         return statusOrderRepository.save(statusOrder);

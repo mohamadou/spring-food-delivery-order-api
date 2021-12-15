@@ -1,12 +1,10 @@
 package com.mohamadou.springfooddeliveryorderapi.service;
 
-import com.mohamadou.springfooddeliveryorderapi.entity.MenuItem;
 import com.mohamadou.springfooddeliveryorderapi.entity.OrderDetails;
-import com.mohamadou.springfooddeliveryorderapi.entity.PlacedOrder;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.MenuItemRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.OrderDetailsRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.PlacedOrderRepository;
-import com.mohamadou.springfooddeliveryorderapi.request.OrderDetailsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,16 +34,23 @@ public class OrderDetailsService {
         return orderDetailsRepository.findAll();
     }
 
-    public Optional<OrderDetails> getOrderDetailsById(Long orderDetailsId){
-        return  orderDetailsRepository.findById(orderDetailsId);
+    public OrderDetails getOrderDetailsById(Long orderDetailsId){
+        Optional<OrderDetails> optionalOrderDetails = orderDetailsRepository.findById(orderDetailsId);
+
+        if(optionalOrderDetails.isEmpty()) {
+            throw new ResourceNotFoundException("OrderDetails id not found :" + orderDetailsId);
+        }
+
+        return optionalOrderDetails.get();
     }
 
     public int deleteOrderDetailsById(Long orderDetailsId){
         Optional<OrderDetails> optionalOrderDetails = orderDetailsRepository.findById(orderDetailsId);
 
         if(optionalOrderDetails.isEmpty()) {
-            throw new IllegalArgumentException("Order Details with id: "+ orderDetailsId + " does not exists");
+            throw new ResourceNotFoundException("Menu id not found :" + orderDetailsId);
         }
+
         orderDetailsRepository.deleteById(orderDetailsId);
 
         return 0;

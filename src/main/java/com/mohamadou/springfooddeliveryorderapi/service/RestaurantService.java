@@ -2,6 +2,7 @@ package com.mohamadou.springfooddeliveryorderapi.service;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.City;
 import com.mohamadou.springfooddeliveryorderapi.entity.Restaurant;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.CityRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.RestaurantRepository;
 import com.mohamadou.springfooddeliveryorderapi.request.RestaurantRequest;
@@ -31,14 +32,20 @@ public class RestaurantService {
         return  restaurantRepository.findAll();
     }
 
-    public Optional<Restaurant> getRestaurantById(Long restaurantId) {
-        return  restaurantRepository.findById(restaurantId);
+    public Restaurant getRestaurantById(Long restaurantId) {
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+
+        if (optionalRestaurant.isEmpty()) {
+            throw new ResourceNotFoundException("Restaurant id not found :" + restaurantId);
+        }
+
+        return optionalRestaurant.get();
     }
 
     public Restaurant createRestaurant(RestaurantRequest restaurantRequest) {
         Optional<City> optionalCity = cityRepository.findById(restaurantRequest.getCityId());
         if (optionalCity.isEmpty()) {
-            throw new RuntimeException("City with this id: "+ restaurantRequest.getCityId() +" does not exist");
+            throw new ResourceNotFoundException("Restaurant id not found :" + restaurantRequest.getCityId());
         }
 
         Restaurant restaurant = new Restaurant();
@@ -52,7 +59,7 @@ public class RestaurantService {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurant.getId());
 
         if (optionalRestaurant.isEmpty()) {
-            throw new RuntimeException("Restaurant with this id: "+ restaurant.getId() +" does not exist");
+            throw new ResourceNotFoundException("Restaurant id not found :" + restaurant.getId());
         }
 
         return restaurantRepository.save(restaurant);
@@ -62,7 +69,7 @@ public class RestaurantService {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
 
         if (optionalRestaurant.isEmpty()) {
-            throw new RuntimeException("Restaurant with this id: "+ restaurantId +" does not exist");
+            throw new ResourceNotFoundException("Restaurant id not found :" + restaurantId);
         }
 
          restaurantRepository.deleteById(restaurantId);

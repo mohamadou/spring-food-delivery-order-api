@@ -1,6 +1,7 @@
 package com.mohamadou.springfooddeliveryorderapi.service;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.City;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,14 @@ public class CityService {
         return cityRepository.findAll();
     }
 
-    public Optional<City> getCityById(Long cityId) {
-        return cityRepository.findById(cityId);
+    public City getCityById(Long cityId) {
+        Optional<City> city = cityRepository.findById(cityId);
+
+        if(city.isEmpty()) {
+            throw new ResourceNotFoundException("City id not found :" + cityId);
+        }
+
+        return city.get();
     }
 
     public City createCity(City city) {
@@ -40,22 +47,22 @@ public class CityService {
         Optional<City> optionalCity = cityRepository.findById(city.getId());
 
         if(optionalCity.isEmpty()) {
-            throw new RuntimeException("City with this id: "+ city.getId() +" does not exist");
+            throw new ResourceNotFoundException("City id not found :" + city.getId());
         }
 
         return cityRepository.save(city);
     }
 
-    public void deleteCityById(Long cityId) {
+    public int deleteCityById(Long cityId) {
         Optional<City> optionalCity = cityRepository.findById(cityId);
 
         if(optionalCity.isEmpty()) {
-            throw new RuntimeException("City with this id: "+ cityId +" does not exist");
+            throw new ResourceNotFoundException("City id not found :" + cityId);
         }
 
         // TODO: detach restaurant when deleting city
 
         cityRepository.deleteById(cityId);
-        System.out.println("City has been deleted with success");
+        return 0;
     }
 }

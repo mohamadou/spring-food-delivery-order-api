@@ -2,6 +2,7 @@ package com.mohamadou.springfooddeliveryorderapi.service;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.City;
 import com.mohamadou.springfooddeliveryorderapi.entity.Customer;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.CityRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.CustomerRepository;
 import com.mohamadou.springfooddeliveryorderapi.request.CustomerRequest;
@@ -34,11 +35,15 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomerById(Long customerId) {
-        return customerRepository.findById(customerId);
+    public Customer getCustomerById(Long customerId) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if(customer.isEmpty()) {
+            throw new ResourceNotFoundException("Customer id not found :" + customerId);
+        }
+        return customer.get();
     }
 
-    public Customer createCustomer(@Valid CustomerRequest customerRequest) {
+    public Customer createCustomer(CustomerRequest customerRequest) {
         customerRequest.setId(0L);
 
         // Check if the city exist before creating the customer
@@ -46,7 +51,7 @@ public class CustomerService {
         Customer customer = new Customer();
 
        if (optionalCity.isEmpty()) {
-           throw new RuntimeException("City with id:" + customerRequest.getCityId() + " does not exists");
+           throw new ResourceNotFoundException("Customer id not found :" + customerRequest.getCityId());
        } else {
             customer.setCity(optionalCity.get());
        }
@@ -69,7 +74,7 @@ public class CustomerService {
         // Check if the customer exists before updating it
         Optional<Customer> customerOptional = customerRepository.findById(customerRequest.getId());
         if (customerOptional.isEmpty()) {
-            throw new RuntimeException("Customer with id:" + customerRequest.getCityId() + " does not exists");
+            throw new ResourceNotFoundException("Customer id not found :" + customerRequest.getId());
         }
 
         // TODO valide phone before saving in DB
@@ -79,7 +84,7 @@ public class CustomerService {
         Customer customer = customerOptional.get();
 
         if (optionalCity.isEmpty()) {
-            throw new RuntimeException("City with id:" + customerRequest.getCityId() + " does not exists");
+            throw new ResourceNotFoundException("City id not found :" + customerRequest.getCityId());
         } else {
             customer.setCity(optionalCity.get());
         }
@@ -101,7 +106,7 @@ public class CustomerService {
         // Check if the customer exists before deleting it
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
         if (customerOptional.isEmpty()) {
-            throw new RuntimeException("Customer with id:" + customerId + " does not exists");
+            throw new ResourceNotFoundException("City id not found :" + customerId);
         }
 
          customerRepository.deleteById(customerId);

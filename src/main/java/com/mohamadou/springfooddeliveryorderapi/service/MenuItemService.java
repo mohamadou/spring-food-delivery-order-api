@@ -3,6 +3,7 @@ package com.mohamadou.springfooddeliveryorderapi.service;
 import com.mohamadou.springfooddeliveryorderapi.entity.Category;
 import com.mohamadou.springfooddeliveryorderapi.entity.MenuItem;
 import com.mohamadou.springfooddeliveryorderapi.entity.Offer;
+import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundException;
 import com.mohamadou.springfooddeliveryorderapi.repository.CategoryRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.MenuItemRepository;
 import com.mohamadou.springfooddeliveryorderapi.repository.OfferRepository;
@@ -38,14 +39,19 @@ public class MenuItemService {
         return menuItemRepository.findAll();
     }
 
-    public Optional<MenuItem> getMenuItemById(Long menuItemId) {
-        return menuItemRepository.findById(menuItemId);
+    public MenuItem getMenuItemById(Long menuItemId) {
+        Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(menuItemId);
+        if(optionalMenuItem.isEmpty()) {
+            throw new ResourceNotFoundException("Menu id not found :" + menuItemId);
+        }
+
+        return optionalMenuItem.get();
     }
 
     public int deleteMenuItemById(Long menuItemId) {
         Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(menuItemId);
         if(optionalMenuItem.isEmpty()) {
-            throw new RuntimeException("Menu with id:" + menuItemId + " does not exists");
+            throw new ResourceNotFoundException("Menu id not found :" + menuItemId);
         }
         menuItemRepository.deleteById(menuItemId);
         return 0;
@@ -82,7 +88,7 @@ public class MenuItemService {
         //Check if Menu Item exists before updating it
         Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(menuItemId);
         if (optionalMenuItem.isEmpty()) {
-            throw new RuntimeException("Menu with id:" + menuItemId + " does not exists");
+            throw new ResourceNotFoundException("Menu id not found :" + menuItemId);
         }
 
         MenuItem menuItem = optionalMenuItem.get();
@@ -110,13 +116,13 @@ public class MenuItemService {
         //Check if Offer exists before updating it
         Optional<Offer> offerOptional = offerRepository.findById(offerId);
         if (offerOptional.isEmpty()) {
-            throw new IllegalArgumentException("Offer with this id "+offerId+" does not exists");
+            throw new ResourceNotFoundException("Offer id not found :" + offerId);
         }
 
         //Check if Menu Item exists before updating it
         Optional<MenuItem> optionalMenuItem = menuItemRepository.findById(menuItemId);
         if (optionalMenuItem.isEmpty()) {
-            throw new RuntimeException("Menu with id:" + menuItemId + " does not exists");
+            throw new ResourceNotFoundException("Menu id not found :" + menuItemId);
         }
 
         Offer offer = offerOptional.get();
