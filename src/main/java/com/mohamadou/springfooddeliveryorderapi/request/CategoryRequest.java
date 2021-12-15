@@ -4,6 +4,7 @@ import com.mohamadou.springfooddeliveryorderapi.entity.OrderDetails;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -13,8 +14,8 @@ public class CategoryRequest {
 
     private Long id;
 
-    @NotBlank(message = "Category Name is required")
-    @NotNull
+    @NotEmpty(message = "Category Name is required")
     private String categoryName;
+
     private String description;
 }

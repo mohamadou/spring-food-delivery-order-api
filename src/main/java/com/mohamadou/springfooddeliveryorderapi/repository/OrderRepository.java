@@ -1,4 +1,4 @@
-package com.mohamadou.springfooddeliveryorderapi.request;
+package com.mohamadou.springfooddeliveryorderapi.repository;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.PlacedOrder;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -5,6 +5,8 @@ import com.mohamadou.springfooddeliveryorderapi.entity.PlacedOrder;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,12 +15,14 @@ public class OrderDetailsRequest {
 
     private Long id;
 
+    @NotNull(message = "PlacedOrderId is required")
     private Long placedOrderId;
 
     /**
      * References the menu_item table,
      * but only if this record is related to a menu item and not an offer.
      */
+    @NotEmpty(message = "MenuItemId is required")
     private Long menuItemId;
 
     /**
@@ -36,6 +40,5 @@ public class OrderDetailsRequest {
      *  e.g. “Please cut pizza into 8 slices”
      */
     private String comment;
-
 
 }

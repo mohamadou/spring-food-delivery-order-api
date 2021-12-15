@@ -51,7 +51,7 @@ public class CustomerService {
         Customer customer = new Customer();
 
        if (optionalCity.isEmpty()) {
-           throw new ResourceNotFoundException("Customer id not found :" + customerRequest.getCityId());
+           throw new ResourceNotFoundException("City id not found :" + customerRequest.getCityId());
        } else {
             customer.setCity(optionalCity.get());
        }

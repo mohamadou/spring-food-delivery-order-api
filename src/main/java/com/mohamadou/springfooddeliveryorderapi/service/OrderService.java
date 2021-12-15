@@ -2,27 +2,17 @@ package com.mohamadou.springfooddeliveryorderapi.service;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.*;
 import com.mohamadou.springfooddeliveryorderapi.reponse.CustomerOrderResponse;
-import com.mohamadou.springfooddeliveryorderapi.repository.CustomerRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.MenuItemRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.PlacedOrderRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.StatusOrderRepository;
+import com.mohamadou.springfooddeliveryorderapi.repository.*;
 import com.mohamadou.springfooddeliveryorderapi.request.CustomerOrderRequest;
-import com.mohamadou.springfooddeliveryorderapi.request.OrderDetailsRequest;
-import com.mohamadou.springfooddeliveryorderapi.request.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class OrderService {
 
-    private  OrderRepository orderRepository;
+    private OrderRepository orderRepository;
     private  MenuItemRepository menuItemRepository;
     private  PlacedOrderRepository placedOrderRepository;
     private  CustomerRepository customerRepository;

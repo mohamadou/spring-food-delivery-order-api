@@ -6,6 +6,7 @@ import com.mohamadou.springfooddeliveryorderapi.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/create")
-    public Customer createCustomer(@RequestBody CustomerRequest customerRequest) {
+    public Customer createCustomer(@Valid @RequestBody CustomerRequest customerRequest) {
         return  customerService.createCustomer(customerRequest);
     }
 

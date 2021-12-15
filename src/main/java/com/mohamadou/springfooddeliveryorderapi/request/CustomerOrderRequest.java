@@ -1,22 +1,16 @@
 package com.mohamadou.springfooddeliveryorderapi.request;
 
 import com.mohamadou.springfooddeliveryorderapi.entity.*;
-import com.mohamadou.springfooddeliveryorderapi.reponse.CustomerOrderResponse;
-import com.mohamadou.springfooddeliveryorderapi.repository.CustomerRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.MenuItemRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.RestaurantRepository;
-import com.mohamadou.springfooddeliveryorderapi.repository.StatusOrderRepository;
+import com.mohamadou.springfooddeliveryorderapi.repository.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Getter
 @Setter
@@ -35,7 +29,7 @@ public class CustomerOrderRequest {
     private MenuItemRepository menuItemRepository;
     private StatusOrderRepository statusOrderRepository;
     private CustomerRepository customerRepository;
-    private OrderRepository orderRepository;
+    private CityRepository orderRepository;
     private RestaurantRepository restaurantRepository;
 
     public CustomerOrderRequest() {
@@ -47,7 +41,7 @@ public class CustomerOrderRequest {
             MenuItemRepository menuItemRepository,
             StatusOrderRepository statusOrderRepository,
             CustomerRepository customerRepository,
-            OrderRepository orderRepository,
+            CityRepository orderRepository,
             RestaurantRepository restaurantRepository
     ) {
         this.menuItemRepository = menuItemRepository;

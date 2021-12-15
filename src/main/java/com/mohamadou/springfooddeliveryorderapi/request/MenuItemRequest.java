@@ -5,6 +5,7 @@ import com.mohamadou.springfooddeliveryorderapi.entity.Offer;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,6 +15,7 @@ import java.util.List;
 @Builder
 public class MenuItemRequest {
 
+    @NotEmpty(message = "ItemName is required")
     private String itemName;
     private Long categoryId;
     private String description;
