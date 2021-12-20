@@ -1,4 +1,4 @@
-# Restaurants Order Delivery App
+# Restaurants Order And Delivery System
 ## Rest APIs
 Technology Stack: Spring-boot + JPA (Hibernate) + Mysql + REST + Spring Security
 
