@@ -55,6 +55,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(resourceErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ResourceErrorResponse> handleException(NullPointerException exc) {
+        ResourceErrorResponse resourceErrorResponse = new ResourceErrorResponse();
+
+        resourceErrorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        resourceErrorResponse.setMessage(exc.getMessage());
+        resourceErrorResponse.setError(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        resourceErrorResponse.setTimestamp(System.currentTimeMillis());
+
+        return new ResponseEntity<>(resourceErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
