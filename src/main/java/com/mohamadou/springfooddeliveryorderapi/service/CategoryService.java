@@ -44,7 +44,6 @@ public class CategoryService {
             throw new ResourceNotFoundException("Category id not found :" + categoryId);
         }
         categoryRepository.deleteById(categoryId);
-
         return 0;
     }
 
@@ -58,13 +57,18 @@ public class CategoryService {
     }
 
     public Category updateCategory(@Valid CategoryRequest categoryRequest) {
+        if(categoryRequest == null) {
+            throw new NullPointerException("Category request is null");
+        }
         // Check if category exists before updating the category
         Optional<Category> optionalCategory = categoryRepository.findById(categoryRequest.getId());
         if(optionalCategory.isEmpty()) {
             throw new ResourceNotFoundException("Category id not found :" + categoryRequest.getId());
         }
         Category category = optionalCategory.get();
+        //Category category = new Category();
         category.setCategoryName(categoryRequest.getCategoryName());
+        category.setDescription(categoryRequest.getDescription());
 
         return categoryRepository.save(category);
     }
