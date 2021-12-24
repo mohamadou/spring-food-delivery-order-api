@@ -100,7 +100,7 @@ class CityServiceTest {
 
         //then
         then(cityRepository).should().save(city);
-        assertThat(expected).isNull();
+        assertThat(expected).isNotNull();
     }
 
     @Test
