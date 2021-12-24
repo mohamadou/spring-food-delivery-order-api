@@ -5,21 +5,21 @@ import com.mohamadou.springfooddeliveryorderapi.exception.ResourceNotFoundExcept
 import com.mohamadou.springfooddeliveryorderapi.repository.CategoryRepository;
 import com.mohamadou.springfooddeliveryorderapi.request.CategoryRequest;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,10 +38,17 @@ class CategoryServiceTest {
     @Test
     void shouldGetAllCategories() {
         // given
+        Category category = new Category();
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(category);
+        given(categoryRepository.findAll()).willReturn(categoryList);
+
         // when
-        categoryService.getAllCategories();
+        List<Category> foundCategory =categoryService.getAllCategories();
+
         // then
-        verify(categoryRepository).findAll();
+        then(categoryRepository).should().findAll();
+        assertThat(foundCategory).hasSize(1);
     }
 
     @Test
@@ -98,36 +105,33 @@ class CategoryServiceTest {
     @Test
     void shouldCreateCategory() {
         //given
-        CategoryRequest categoryRequest = new CategoryRequest(null,"Pizza","Lorem ipseum");
-        Category category = new Category(null,"Pizza","Lorem ipseum");
+        CategoryRequest categoryRequest = new CategoryRequest();
+        Category category = new Category();
         given(categoryRepository.save(any(Category.class))).willReturn(category);
-
 
         //when
         Category expected = categoryService.createCategory(categoryRequest);
 
         //then
-        //ArgumentCaptor<CategoryRequest> categoryArgumentCaptor = ArgumentCaptor.forClass(CategoryRequest.class);
-
-        verify(categoryRepository).save(any(Category.class));
-        assertThat(expected).isEqualTo(category);
+        then(categoryRepository).should().save(any(Category.class));
+        assertThat(expected).isNotNull();
 
     }
 
     @Test
     void shouldUpdateCategory() {
         //given
-        Category category = new Category(1L,"Pizza","Lorem ipseum");
-        CategoryRequest categoryRequest = new CategoryRequest(1L,"Pizza","Lorem ipseum");
-
+        Category category = new Category();
+        CategoryRequest categoryRequest = new CategoryRequest(1L,null,null);
         given(categoryRepository.findById(anyLong())).willReturn(Optional.of(category));
-
 
         //when
         Category expected = categoryService.updateCategory(categoryRequest);
 
         //then
-        verify(categoryRepository).save(any(Category.class));
+        then(categoryRepository).should().findById(1L);
+        then(categoryRepository).should(times(1)).save(any(Category.class));
+
     }
 
     @Test
@@ -151,6 +155,22 @@ class CategoryServiceTest {
         //then
         assertThatThrownBy(() -> categoryService.updateCategory(categoryRequest))
                 .isInstanceOf(ResourceNotFoundException.class);
+    }
+
+
+    @Test
+    void shouldFindCategoryById() {
+        //given
+        Long id = 1L;
+        Category category = new Category();
+        given(categoryRepository.findById(anyLong())).willReturn(Optional.of(category));
+
+        //when
+        Category expected = categoryService.getCategoryById(id);
+
+        //then
+        assertThat(expected).isNotNull();
+        then(categoryRepository).should().findById(anyLong());
     }
 
 }

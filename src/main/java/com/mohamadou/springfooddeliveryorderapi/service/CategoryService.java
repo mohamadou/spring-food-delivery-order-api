@@ -66,7 +66,6 @@ public class CategoryService {
             throw new ResourceNotFoundException("Category id not found :" + categoryRequest.getId());
         }
         Category category = optionalCategory.get();
-        //Category category = new Category();
         category.setCategoryName(categoryRequest.getCategoryName());
         category.setDescription(categoryRequest.getDescription());
 
