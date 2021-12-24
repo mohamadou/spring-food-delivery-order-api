@@ -94,12 +94,13 @@ class CityServiceTest {
         //given
         City city = new City(1L, null, null);
         given(cityRepository.findById(anyLong())).willReturn(Optional.of(city));
-
+        given(cityRepository.save(any())).willReturn(city);
         //when
         City expected = cityService.updateCity(city);
 
         //then
         then(cityRepository).should().save(city);
+        assertThat(expected).isNotNull();
     }
 
     @Test

@@ -124,6 +124,7 @@ class CategoryServiceTest {
         Category category = new Category();
         CategoryRequest categoryRequest = new CategoryRequest(1L,null,null);
         given(categoryRepository.findById(anyLong())).willReturn(Optional.of(category));
+        given(categoryRepository.save(any(Category.class))).willReturn(category);
 
         //when
         Category expected = categoryService.updateCategory(categoryRequest);
@@ -131,6 +132,7 @@ class CategoryServiceTest {
         //then
         then(categoryRepository).should().findById(1L);
         then(categoryRepository).should(times(1)).save(any(Category.class));
+        assertThat(expected).isNotNull();
 
     }
 
