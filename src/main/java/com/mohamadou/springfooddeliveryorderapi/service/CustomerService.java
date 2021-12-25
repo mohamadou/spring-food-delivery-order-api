@@ -77,7 +77,7 @@ public class CustomerService {
             throw new ResourceNotFoundException("Customer id not found :" + customerRequest.getId());
         }
 
-        // TODO valide phone before saving in DB
+        // TODO validate phone before saving in DB
 
         // Check if the city exist before updating the customer
         Optional<City> optionalCity = cityRepository.findById(customerRequest.getCityId());
